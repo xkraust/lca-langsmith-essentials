@@ -148,9 +148,12 @@ def main() -> int:
     parser.add_argument("--thread", help="conversation id (defaults to a fresh uuid)")
     args = parser.parse_args()
 
-    if not os.getenv("OPENAI_API_KEY"):
+    key_var = (
+        "ANTHROPIC_API_KEY" if MODEL_NAME.startswith("anthropic:") else "OPENAI_API_KEY"
+    )
+    if not os.getenv(key_var):
         print(
-            "OPENAI_API_KEY is not set. Copy .env.example to .env and fill it in.",
+            f"{key_var} is not set. Copy .env.example to .env and fill it in.",
             file=sys.stderr,
         )
         return 1
